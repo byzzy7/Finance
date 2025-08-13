@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Přehled financí</title>
+
+    <!-- Propojení se souborem stylů -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Načtení knihovny pro kreslení grafů -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <div class="kontejner">
+        <h1>Můj finanční přehled</h1>
+
+        <h2>Přidat novou transakci</h2>
+        <form id="transakcni-formular">
+            <div>
+                <label>Typ transakce:</label>
+                <input type="radio" id="vydaj" name="typ_transakce" value="Výdaj" checked>
+                <label for="vydaj">Výdaj</label>
+                <input type="radio" id="prijem" name="typ_transakce" value="Příjem">
+                <label for="prijem">Příjem</label>            
+            </div>
+            <div>    
+                <label for="popis">Popis:</label>
+                <input type="text" id="popis" placeholder="Např. nákup potravin" required>
+            </div>
+            <div>
+                <label for="castka">Částka (Kč):</label>
+                <input type="number" id="castka" placeholder="Např. 850" required>
+            </div>
+            <div>
+                <label for="datum">Datum:</label>
+                <input type="date" id="datum" required>
+            </div>
+            <button type="submit">Přidat</button>
+        </form>
+        
+        <hr style="margin-top: 30px; margin-bottom: 30px;">
+
+        <div class="ovladaci-panel">
+            <div class="panel-sekce">
+                <label for="vstup-limit">Měsiční limit:</label>
+                <input type="number" id="vstup-limit" placeholder="Zadejte částku v Kč">
+                <button id="btn-ulozit-limit">Přidat</button>
+            </div>
+            <div class="panel-sekce">
+                <label for="select-mesic">Zobrazit období:</label>
+                <select id="select-mesic"></select>
+            </div>
+        </div>
+
+        <div class="prehled-kontejner">
+            <div class="levy-sloupec">
+                <h2>Přehled transakcí</h2>
+                
+                <div class="souhrn">
+                    <div class="souhrn-polozka">
+                        <div class="souhrn-popisek">Celkem příjmy</div>
+                        <div class="souhrn-hodnota" id="celkove-prijmy">0 Kč</div>
+                    </div>
+                    <div class="souhrn-polozka">
+                        <div class="souhrn-popisek">Celkem výdaje</div>
+                        <div class="souhrn-hodnota" id="celkove-vydaje">0 Kč</div>
+                    </div>
+                    <div class="souhrn-polozka zustatek-polozka">
+                        <div class="souhrn-popisek">Zůstatek</div>
+                        <div class="souhrn-hodnota" id="zustatek">0 Kč</div>
+                    </div>
+                    <div class="souhrn-polozka stav-limut" id="stav-limitu-box">
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Typ</th>
+                            <th>Popis</th>
+                            <th>Částka</th>
+                            <th>Datum</th>
+                            <th>Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody id="prehled-transakci"></tbody>
+                </table>
+            </div>
+
+            <div class="pravy-sloupec">
+                <h2>Grafický přehled</h2>
+                <div class="graf-kontejner">
+                    <canvas id="financni-graf"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DŮLEŽITÉ: Na konci je pouze odkaz na externí soubor -->
+    <script src="script.js" defer></script>
+</body>
+</html>

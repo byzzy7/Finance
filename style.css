@@ -1,0 +1,211 @@
+/* 1. CELKOVÝ VZHLED A PÍSMO */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* 2. HLAVNÍ KONTEJNER A CENTROVÁNÍ */
+.kontejner {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: e0e0e0;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px;
+}
+
+h1, h2 {
+    color: #0056b3;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* 3. VZHLED FORMULÁŘE */
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+label[for="prijem"], label[for="vydaj"] {
+    display: inline;
+    font-weight: normal;
+}
+input[type="text"],
+input[type="number"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+/* 8. STYLY PRO OVLÁDACÍ PANEL */
+.ovladaci-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.panel-sekce {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ovladaci-panel label {
+    margin-bottom: 0;
+    font-weight: normal;
+}
+.ovladaci-panel input[type="number"] {
+    width: 150px;
+}
+.ovladaci-panel button {
+    background-color: #28a745;
+    color: white;
+    width: auto;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+.ovladaci-panel button:hover {
+    background-color: #218838;
+}
+#select-mesic {
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+/* 5. SOUHRNNÉ STATISTIKY - VZHLED KARET */
+.souhrn {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+.souhrn-polozka {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px 20px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.souhrn-polozka:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+}
+.souhrn-popisek {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 8px;
+}
+.souhrn-hodnota {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+.zustatek-polozka {
+    background-color: #e2f3f5;
+    border-color: #b3e0e6;
+}
+.stav-limitu {
+    display: none;
+}
+.limit-ok {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+.limit-ok .souhrn-hodnota {
+    color: #155724;
+}
+.limit-prekrocen {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+.limit-prekrocen .souhrn-hodnota {
+    color: #721c24;
+}
+
+/* 6. TABULKA A GRAF */
+.prehled-kontejner {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    margin-top: 30px;
+}
+.levy-sloupec {
+    flex: 2;
+}
+.pravy-sloupec {
+    flex: 1;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+thead th {
+    background-color: #007bff;
+    color: white;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+tbody tr:hover {
+    background-color: #e9ecef;
+}
+.graf-kontejner {
+    position: relative;
+    width: 100%;
+    min-height: 300px;
+}
+.smazat-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.smazat-btn:hover {
+    background-color: #c82333;
+}
