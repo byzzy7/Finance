@@ -2,8 +2,7 @@
 
 Jednoduchá "single-page" webová aplikace pro sledování osobních příjmů a výdajů. Umožňuje přidávat, mazat a filtrovat transakce, sledovat měsíční limit a vizualizovat data v přehledném grafu.
 
-<img width="828" height="758" alt="Image" src="https://github.com/user-attachments/assets/93462536-4b78-411e-a6f7-f265677b6f74" />
-
+<img width="1631" height="820" alt="Image" src="https://github.com/user-attachments/assets/bac82bf0-e692-4222-8efe-e2da6aeaf5a6" />
 ---
 
 ## Klíčové funkce
