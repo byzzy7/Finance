@@ -1,211 +1,237 @@
-/* 1. CELKOVÝ VZHLED A PÍSMO */
+/* 1. ZÁKLADNÍ NASTAVENÍ A PROMENNÉ */
+:root {
+    --primary-color: #007bff;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --text-color: #333;
+    --text-muted: #6c757d;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f4f7f6;
-    color: #333;
+    background-color: #e9ecef;
+    color: var(--text-color);
     margin: 0;
-    padding: 20px;
 }
 
-/* 2. HLAVNÍ KONTEJNER A CENTROVÁNÍ */
-.kontejner {
-    max-width: 1200px;
+/* 2. HLAVNÍ LAYOUT MŘÍŽKY */
+.hlavni-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: 
+        "header   header"
+        "aside    graf"
+        "aside    prehled";
+    gap: 20px;
+    padding: 20px;
+    max-width: 1600px;
     margin: 0 auto;
-    background-color: e0e0e0;
+}
+
+.layout-header { grid-area: header; }
+.layout-aside { grid-area: aside; }
+.layout-graf { grid-area: graf; }
+.layout-prehled { grid-area: prehled; }
+
+.layout-aside, .layout-graf, .layout-prehled {
+    background-color: white;
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.layout-aside {
+    display: flex; /* Zajistí, že obsah se roztáhne na celou výšku */
+}
+.aside-content {
+    width: 100%;
 }
 
-h1, h2 {
-    color: #0056b3;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-    margin-top: 0;
-}
 
+/* 3. STYLY JEDNOTLIVÝCH SEKCI */
 h1 {
+    font-size: 2rem;
+    color: #fff;
+    background-color: var(--primary-color);
+    padding: 15px;
+    margin: 0;
+    border-radius: 8px;
     text-align: center;
-    margin-bottom: 30px;
+}
+h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    color: var(--primary-color);
+    font-size: 1.5rem;
 }
 
-/* 3. VZHLED FORMULÁŘE */
-form div {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-label[for="prijem"], label[for="vydaj"] {
-    display: inline;
-    font-weight: normal;
-}
-input[type="text"],
-input[type="number"],
-input[type="date"] {
+/* Formulář */
+form div { margin-bottom: 15px; }
+label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+label[for="prijem"], label[for="vydaj"] { display: inline-block; font-weight: normal; }
+input, select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 14px;
 }
 button[type="submit"] {
-    background-color: #28a745;
+    background-color: var(--success-color);
     color: white;
-    padding: 12px 20px;
+    width: 100%;
+    padding: 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    width: 100%;
-    transition: background-color 0.2s;
-}
-button[type="submit"]:hover {
-    background-color: #218838;
+    margin-top: 10px;
 }
 
-/* 8. STYLY PRO OVLÁDACÍ PANEL */
+/* Ovládací panel */
 .ovladaci-panel {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+.panel-sekce label { font-weight: bold; }
+.panel-sekce input, .panel-sekce select { padding: 8px; font-size: 14px; }
+.panel-sekce button { background-color: var(--primary-color); padding: 8px 15px; font-size: 14px; width: auto; border:none; color:white; cursor:pointer; border-radius:4px;}
+
+/* Přehled a filtry */
+.prehled-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f8f9fa;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
     flex-wrap: wrap;
-    gap: 20px;
 }
-.panel-sekce {
+.filtry-sekce {
+    display: flex;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+.filtr-item {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.ovladaci-panel label {
-    margin-bottom: 0;
-    font-weight: normal;
-}
-.ovladaci-panel input[type="number"] {
-    width: 150px;
-}
-.ovladaci-panel button {
-    background-color: #28a745;
-    color: white;
-    width: auto;
-    padding: 8px 15px;
-    font-size: 14px;
-}
-.ovladaci-panel button:hover {
-    background-color: #218838;
-}
-#select-mesic {
-    font-size: 14px;
-    padding: 8px 12px;
-}
+.filtr-item label { margin-bottom: 0; font-weight: normal; }
 
-/* 5. SOUHRNNÉ STATISTIKY - VZHLED KARET */
-.souhrn {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 30px;
-}
-.souhrn-polozka {
-    background-color: #fff;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 15px 20px;
-    text-align: left;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.souhrn-polozka:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-}
-.souhrn-popisek {
-    font-size: 14px;
-    color: #6c757d;
-    margin-bottom: 8px;
-}
-.souhrn-hodnota {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-}
-.zustatek-polozka {
-    background-color: #e2f3f5;
-    border-color: #b3e0e6;
-}
-.stav-limitu {
-    display: none;
-}
-.limit-ok {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-    color: #155724;
-}
-.limit-ok .souhrn-hodnota {
-    color: #155724;
-}
-.limit-prekrocen {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
-}
-.limit-prekrocen .souhrn-hodnota {
-    color: #721c24;
-}
+/* Karty souhrnu */
+.souhrn { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+.souhrn-polozka { background-color: var(--light-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; }
+.souhrn-popisek { font-size: 14px; color: var(--text-muted); margin-bottom: 5px; }
+.souhrn-hodnota { font-size: 22px; font-weight: 700; }
+.zustatek-polozka { background-color: #e2f3f5; }
+.stav-limitu { display: none; }
+.limit-ok { background-color: #d4edda; }
+.limit-prekrocen { background-color: #f8d7da; }
 
-/* 6. TABULKA A GRAF */
-.prehled-kontejner {
+/* Tabulka */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border-color); }
+thead th { background-color: var(--primary-color); color: white; }
+tbody tr:hover { background-color: #f1f1f1; }
+.smazat-btn { background-color: var(--danger-color); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+
+/* Graf */
+.graf-kontejner { width: 100%; min-height: 300px; }
+
+/* RESPONZIVITA */
+@media (max-width: 1024px) {
+    .hlavni-layout {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "header"
+            "aside"
+            "graf"
+            "prehled";
+    }
+}
+.radio-tlacitka { 
+    display: flex; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    overflow: hidden; 
+}
+.radio-tlacitka input[type="radio"] { 
+    display: none; /* Skryje ošklivá kolečka */
+}
+.radio-tlacitka label { 
+    flex: 1; 
+    text-align: center; 
+    padding: 10px; 
+    cursor: pointer; 
+    background-color: var(--light-bg); 
+    color: var(--text-muted); 
+    transition: all 0.2s; 
+    margin: 0; 
+    font-weight: normal; 
+}
+.radio-tlacitka label:hover { 
+    background-color: #e9ecef; 
+}
+/* Klíčové pravidlo: Styly pro aktivní tlačítko */
+.radio-tlacitka input[type="radio"]:checked + label { 
+    color: white; 
+    font-weight: bold; 
+}
+.radio-tlacitka input#vydaj:checked + label { 
+    background-color: var(--danger-color); 
+}
+.radio-tlacitka input#prijem:checked + label { 
+    background-color: var(--success-color); 
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
-    gap: 30px;
-    align-items: flex-start;
-    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
-.levy-sloupec {
-    flex: 2;
+.modal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
 }
-.pravy-sloupec {
-    flex: 1;
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
+.modal-overlay.hidden .modal {
+    transform: translateY(-50px);
 }
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-thead th {
-    background-color: #007bff;
-    color: white;
-    font-size: 14px;
-    text-transform: uppercase;
-}
-tbody tr:hover {
-    background-color: #e9ecef;
-}
-.graf-kontejner {
-    position: relative;
-    width: 100%;
-    min-height: 300px;
-}
-.smazat-btn {
-    background-color: #dc3545;
+.modal-buttons { display: flex; gap: 15px; margin-top: 20px; }
+.modal-buttons button { flex: 1; }
+.btn-ulozit { background-color: var(--success-color) !important; }
+.btn-zrusit { background-color: var(--text-muted) !important; }
+
+/* Tlačítko "Upravit" v tabulce */
+.upravit-btn {
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px;
+    margin-right: 5px;
 }
-.smazat-btn:hover {
-    background-color: #c82333;
-}
+
+/* Responzivita */
+@media (max-width: 1024px) { /* ... */ }

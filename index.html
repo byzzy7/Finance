@@ -2,102 +2,76 @@
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
-    <title>Přehled financí</title>
-
-    <!-- Propojení se souborem stylů -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Můj finanční přehled</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- Načtení knihovny pro kreslení grafů -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <div class="kontejner">
-        <h1>Můj finanční přehled</h1>
-
-        <h2>Přidat novou transakci</h2>
-        <form id="transakcni-formular">
-            <div>
-                <label>Typ transakce:</label>
-                <input type="radio" id="vydaj" name="typ_transakce" value="Výdaj" checked>
-                <label for="vydaj">Výdaj</label>
-                <input type="radio" id="prijem" name="typ_transakce" value="Příjem">
-                <label for="prijem">Příjem</label>            
+    <div class="hlavni-layout">
+        <!-- ZDE JE OBSAH STRÁNKY (header, aside, main-content) -->
+        <header class="layout-header"><h1>Můj finanční přehled</h1></header>
+        <aside class="layout-aside">
+            <div class="aside-content">
+                <h2>Přidat novou transakci</h2>
+                <form id="transakci-formular">
+                    <div><label>Typ transakce:</label><div class="radio-tlacitka"><input type="radio" id="vydaj" name="typ_transakce" value="Výdaj" checked><label for="vydaj" class="tlacitko-vydaj">Výdaj</label><input type="radio" id="prijem" name="typ_transakce" value="Příjem"><label for="prijem" class="tlacitko-prijem">Příjem</label></div></div>
+                    <div><label for="popis">Popis:</label><input type="text" id="popis" placeholder="Např. nákup potravin" required></div>
+                    <div><label for="kategorie">Kategorie:</label><select id="kategorie" required><option value="Potraviny">Potraviny</option><option value="Bydlení">Bydlení</option><option value="Doprava">Doprava</option><option value="Zábava">Zábava</option><option value="Oblečení">Oblečení</option><option value="Zdraví">Zdraví</option><option value="Příjem">Příjem</option><option value="Palivo">Palivo</option><option value="Ostatní" selected>Ostatní</option></select></div>
+                    <div><label for="castka">Částka (Kč):</label><input type="number" id="castka" placeholder="Např. 850.50" step="0.01" required></div>
+                    <div><label for="datum">Datum:</label><input type="date" id="datum" required></div>
+                    <button type="submit">Přidat</button>
+                </form>
             </div>
-            <div>    
-                <label for="popis">Popis:</label>
-                <input type="text" id="popis" placeholder="Např. nákup potravin" required>
-            </div>
-            <div>
-                <label for="castka">Částka (Kč):</label>
-                <input type="number" id="castka" placeholder="Např. 850" required>
-            </div>
-            <div>
-                <label for="datum">Datum:</label>
-                <input type="date" id="datum" required>
-            </div>
-            <button type="submit">Přidat</button>
-        </form>
-        
-        <hr style="margin-top: 30px; margin-bottom: 30px;">
-
-        <div class="ovladaci-panel">
-            <div class="panel-sekce">
-                <label for="vstup-limit">Měsiční limit:</label>
-                <input type="number" id="vstup-limit" placeholder="Zadejte částku v Kč">
-                <button id="btn-ulozit-limit">Přidat</button>
-            </div>
-            <div class="panel-sekce">
-                <label for="select-mesic">Zobrazit období:</label>
-                <select id="select-mesic"></select>
-            </div>
-        </div>
-
-        <div class="prehled-kontejner">
-            <div class="levy-sloupec">
-                <h2>Přehled transakcí</h2>
-                
-                <div class="souhrn">
-                    <div class="souhrn-polozka">
-                        <div class="souhrn-popisek">Celkem příjmy</div>
-                        <div class="souhrn-hodnota" id="celkove-prijmy">0 Kč</div>
-                    </div>
-                    <div class="souhrn-polozka">
-                        <div class="souhrn-popisek">Celkem výdaje</div>
-                        <div class="souhrn-hodnota" id="celkove-vydaje">0 Kč</div>
-                    </div>
-                    <div class="souhrn-polozka zustatek-polozka">
-                        <div class="souhrn-popisek">Zůstatek</div>
-                        <div class="souhrn-hodnota" id="zustatek">0 Kč</div>
-                    </div>
-                    <div class="souhrn-polozka stav-limut" id="stav-limitu-box">
-                    </div>
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Typ</th>
-                            <th>Popis</th>
-                            <th>Částka</th>
-                            <th>Datum</th>
-                            <th>Akce</th>
-                        </tr>
-                    </thead>
-                    <tbody id="prehled-transakci"></tbody>
-                </table>
-            </div>
-
-            <div class="pravy-sloupec">
+        </aside>
+        <div class="main-content">
+            <section class="layout-graf">
                 <h2>Grafický přehled</h2>
-                <div class="graf-kontejner">
-                    <canvas id="financni-graf"></canvas>
+                <div class="graf-kontejner"><canvas id="graf-kategorie"></canvas></div>
+            </section>
+            <main class="layout-prehled">
+                <div class="prehled-header">
+                    <h2>Přehled transakcí</h2>
+                    <div class="filtry-sekce">
+                        <div class="filtr-item"><label for="select-kategorie">Filtrovat kategorii:</label><select id="select-kategorie"></select></div>
+                        <div class="filtr-item"><label for="select-mesic">Zobrazit období:</label><select id="select-mesic"></select></div>
+                    </div>
                 </div>
-            </div>
+                <div class="souhrn">
+                    <div class="souhrn-polozka"><div class="souhrn-popisek">Celkem příjmy</div><div class="souhrn-hodnota" id="celkove-prijmy">0 Kč</div></div>
+                    <div class="souhrn-polozka"><div class="souhrn-popisek">Celkem výdaje</div><div class="souhrn-hodnota" id="celkove-vydaje">0 Kč</div></div>
+                    <div class="souhrn-polozka zustatek-polozka"><div class="souhrn-popisek">Zůstatek</div><div class="souhrn-hodnota" id="zustatek">0 Kč</div></div>
+                </div>
+                <div class="tabulka-kontejner">
+                    <table>
+                        <thead><tr><th>Typ</th><th>Popis</th><th>Kategorie</th><th>Částka</th><th>Datum</th><th>Akce</th></tr></thead>
+                        <tbody id="prehled-transakci"></tbody>
+                    </table>
+                </div>
+            </main>
         </div>
     </div>
 
-    <!-- DŮLEŽITÉ: Na konci je pouze odkaz na externí soubor -->
+    <!-- MODÁLNÍ OKNO JE UMÍSTĚNO ZDE, MIMO HLAVNÍ LAYOUT -->
+    <div id="edit-modal-overlay" class="modal-overlay hidden">
+        <div id="edit-modal" class="modal">
+            <h2>Upravit transakci</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-transakce-id">
+                <div><label>Typ transakce:</label><div class="radio-tlacitka"><input type="radio" id="edit-vydaj" name="edit_typ_transakce" value="Výdaj"><label for="edit-vydaj" class="tlacitko-vydaj">Výdaj</label><input type="radio" id="edit-prijem" name="edit_typ_transakce" value="Příjem"><label for="edit-prijem" class="tlacitko-prijem">Příjem</label></div></div>
+                <div><label for="edit-popis">Popis:</label><input type="text" id="edit-popis" required></div>
+                <div><label for="edit-kategorie">Kategorie:</label><select id="edit-kategorie" required></select></div>
+                <div><label for="edit-castka">Částka (Kč):</label><input type="number" id="edit-castka" step="0.01" required></div>
+                <div><label for="edit-datum">Datum:</label><input type="date" id="edit-datum" required></div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-ulozit">Uložit změny</button>
+                    <button type="button" id="btn-zavrit-modal" class="btn-zrusit">Zrušit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js" defer></script>
 </body>
 </html>
