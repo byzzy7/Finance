@@ -70,6 +70,14 @@ body {
   transform: translateY(0);
 }
 
+/* Nativní rozbalovací nabídka <select> ignoruje naše barvy pozadí karet,
+   takže bez explicitní barvy option prvků je bílé pozadí prohlížeče
+   s bílým (zděděným) textem nečitelné. */
+select option {
+  background-color: #14141f;
+  color: rgba(255, 255, 255, 0.92);
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
