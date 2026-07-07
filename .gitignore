@@ -1,0 +1,15 @@
+# Backend lokální konfigurace (obsahuje DB heslo)
+api/config.local.php
+
+# Frontend
+frontend/node_modules
+frontend/dist
+frontend/dist-ssr
+frontend/*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea

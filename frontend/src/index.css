@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: #7c5cff;
+  --color-accent-2: #38bdf8;
+  --color-income: #22c55e;
+  --color-expense: #f87171;
+  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font-sans);
+  color: rgba(255, 255, 255, 0.92);
+  background:
+    radial-gradient(circle at 15% -10%, rgba(124, 92, 255, 0.25), transparent 45%),
+    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.18), transparent 40%),
+    #0b0b14;
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+/* Skleněná karta - základní stavební prvek celého designu */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.glass-hover {
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.glass-hover:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(124, 92, 255, 0.25);
+}
+
+.glow-ring {
+  box-shadow: 0 0 0 1px rgba(124, 92, 255, 0.3), 0 0 24px rgba(124, 92, 255, 0.25);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-btn {
+  background: linear-gradient(90deg, var(--color-accent), var(--color-accent-2));
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.gradient-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.gradient-btn:active {
+  transform: translateY(0);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}

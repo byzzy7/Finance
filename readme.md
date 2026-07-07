@@ -1,46 +1,85 @@
-# Finanční přehled - Jednoduchá webová aplikace
+# Finanční přehled rodiny
 
-Jednoduchá "single-page" webová aplikace pro sledování osobních příjmů a výdajů. Umožňuje přidávat, mazat a filtrovat transakce, sledovat měsíční limit a vizualizovat data v přehledném grafu.
+Rodinná aplikace pro sledování příjmů a výdajů — pro web i telefony (instalovatelná PWA).
+Tmavý glassmorphism design, více profilů členů rodiny, vlastní kategorie s rozpočtovými
+limity, uložené filtry a přizpůsobitelný dashboard.
 
-<img width="828" height="758" alt="Image" src="https://github.com/user-attachments/assets/93462536-4b78-411e-a6f7-f265677b6f74" />
+## Architektura
 
----
+```
+/frontend    React + Vite + TypeScript + Tailwind CSS (PWA)
+/api         PHP 8 + MySQL/MariaDB backend (session auth)
+/database    schema.sql — databázové schéma + výchozí data
+```
+
+Frontend komunikuje s API přes `/api/*` (v produkci stejná doména, v lokálním vývoji
+přes Vite proxy — viz `frontend/vite.config.ts`).
+
+### Databáze
+
+- `clenove_rodiny` — účty členů rodiny (jméno, heslo, barva avataru)
+- `kategorie` — kategorie transakcí (ikona, barva, volitelný měsíční limit)
+- `transakce` — jednotlivé příjmy/výdaje, vázané na člena a kategorii
+- `ulozene_filtry` — pojmenované kombinace filtrů uložené per člen
+- `rozlozeni_dashboardu` — viditelnost a pořadí widgetů na dashboardu per člen
+
+### Backend (PHP)
+
+Session-based přihlášení (`password_hash`/`password_verify`). Každý chráněný endpoint
+(`clenove.php`, `kategorie.php`, `transakce.php`, `filtry.php`, `rozlozeni.php`) vyžaduje
+platnou session — jinak vrací `401`. Přihlašovací údaje k databázi se nikdy necommitují:
+`api/db_config.php` načítá `api/config.local.php` (v `.gitignore`), podle šablony
+`api/config.example.php`.
+
+## Lokální vývoj
+
+Vyžaduje PHP 8+ a MySQL/MariaDB (např. XAMPP) a Node.js 20+.
+
+1. **Databáze** — vytvoř databázi a nahraj schéma:
+   ```
+   mysql -u root -e "CREATE DATABASE finance_app CHARACTER SET utf8mb4;"
+   mysql -u root finance_app < database/schema.sql
+   ```
+   Výchozí přihlašovací účet: `admin` / `zmente-me` — po prvním přihlášení heslo změň.
+
+2. **Backend** — zkopíruj `api/config.example.php` do `api/config.local.php` a vyplň
+   údaje k databázi, pak spusť vestavěný PHP server:
+   ```
+   cd api
+   php -S localhost:8000
+   ```
+
+3. **Frontend** — Vite dev server proxuje `/api` na `http://localhost:8000`:
+   ```
+   cd frontend
+   npm install
+   npm run dev
+   ```
+   Aplikace poběží na `http://localhost:5173`.
+
+## Nasazení na Synology (Web Station)
+
+1. `cd frontend && npm run build` — vygeneruje `frontend/dist`.
+2. Na server nahraj obsah `frontend/dist/`, celou složku `api/` a `.htaccess` do webové
+   složky (např. `/web/finance/`).
+3. Na serveru vytvoř `api/config.local.php` podle `api/config.example.php` se skutečnými
+   údaji k databázi (tento soubor se necommituje do gitu).
+4. Spusť `database/schema.sql` na produkční databázi.
+5. Ověř, že `.htaccess` přesměrovává vše mimo `/api` a existující soubory na `index.html`
+   (SPA routing) — viz komentář v souboru.
 
 ## Klíčové funkce
 
-*   **Správa transakcí:** Přidávání příjmů a výdajů s popisem, částkou a datem.
-*   **Dynamický přehled:** Automatický výpočet celkových příjmů, výdajů a aktuálního zůstatku.
-*   **Vizuální graf:** Koláčový graf pro rychlý přehled poměru příjmů a výdajů ve vybraném období.
-*   **Měsíční filtrování:** Možnost zobrazit transakce pro konkrétní měsíc nebo všechny najednou.
-*   **Sledování limitu:** Nastavení měsíčního limitu na výdaje a vizuální indikace jeho plnění.
-*   **Trvalé uložení dat:** Všechna data jsou ukládána lokálně v prohlížeči pomocí `LocalStorage`, takže po obnovení stránky nezmizí.
-*   **Responzivní design:** Aplikace je navržena tak, aby byla použitelná na desktopu i na menších obrazovkách.
-
----
+- Přihlášení pro každého člena rodiny zvlášť, s vlastním avatarem a barvou.
+- Přehled příjmů/výdajů, koláčový graf podle kategorií a trend graf za posledních 6 měsíců.
+- Filtrování podle období, kategorie a člena rodiny; uložené filtry pro rychlý přístup.
+- Vlastní kategorie s ikonou, barvou a volitelným měsíčním rozpočtovým limitem
+  (s vizuálním ukazatelem čerpání).
+- Přizpůsobitelný dashboard — viditelnost a pořadí widgetů se ukládá per člen.
+- Instalovatelná PWA s offline podporou (manifest + service worker).
 
 ## Použité technologie
 
-*   **HTML5:** Pro základní strukturu a sémantiku stránky.
-*   **CSS3:** Pro veškerý styling, rozložení (Flexbox, Grid) a vizuální efekty.
-*   **JavaScript (ES6+):** Pro veškerou logiku aplikace, manipulaci s DOM, výpočty a interaktivitu.
-*   **Chart.js:** Knihovna pro snadné a rychlé vytváření interaktivních grafů.
-*   **Synology Web Station:** Pro hostování aplikace na vlastním NAS serveru.
-
----
-
-## Jak spustit projekt
-
-### Lokální spuštění
-
-Projekt nevyžaduje žádnou instalaci. Stačí otevřít soubor `index.html` v jakémkoliv moderním webovém prohlížeči.
-
-### Nasazení na server (např. Synology NAS)
-
-1.  Ujistěte se, že máte nainstalovaný a spuštěný balíček **Web Station**.
-2.  Zkopírujte všechny soubory projektu (`index.html`, `style.css`, `script.js`, `README.md`) do podsložky ve sdílené složce `/web` (např. `/web/finance/`).
-3.  Nastavte správná oprávnění pro skupinu `http` na složku `/web` (čtení/zápis).
-4.  Aplikace bude dostupná na lokální adrese `http://<IP_ADRESA_NASU>/finance/`.
-
----
-
-Vytvořeno jako součást výukového projektu o základech webového vývoje.
+- **Frontend:** React, TypeScript, Vite, Tailwind CSS, Chart.js, React Router, vite-plugin-pwa
+- **Backend:** PHP 8 (mysqli, prepared statements), MySQL/MariaDB
+- **Hosting:** Synology NAS (Web Station)
