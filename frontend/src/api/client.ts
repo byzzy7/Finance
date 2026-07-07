@@ -6,8 +6,10 @@ export class ApiError extends Error {
   }
 }
 
+const API_BASE = `${import.meta.env.BASE_URL}api`.replace(/\/+/g, '/')
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const response = await fetch(`/api${path}`, {
+  const response = await fetch(`${API_BASE}${path}`, {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',

@@ -3,8 +3,8 @@ AddDefaultCharset UTF-8
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Nechej API a existující soubory/složky být
-    RewriteCond %{REQUEST_URI} ^/api/ [OR]
+    # Nechej API a existující soubory/složky být (funguje i v podsložce, např. /finance/api/)
+    RewriteCond %{REQUEST_URI} /api/ [OR]
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
