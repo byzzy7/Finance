@@ -68,7 +68,9 @@ if ($method === 'POST' || $method === 'PUT') {
     if ($method === 'POST') {
         $stmt = $conn->prepare('INSERT INTO transakce (clen_id, kategorie_id, typ, popis, castka, datum) VALUES (?, ?, ?, ?, ?, ?)');
         $stmt->bind_param('iissds', $memberId, $kategorieId, $typ, $popis, $castka, $datum);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            sendError('Nepodařilo se uložit transakci — zkontrolujte, zda kategorie existuje.', 400);
+        }
         sendJson(['id' => $stmt->insert_id], 201);
     }
 
@@ -78,7 +80,9 @@ if ($method === 'POST' || $method === 'PUT') {
     }
     $stmt = $conn->prepare('UPDATE transakce SET kategorie_id = ?, typ = ?, popis = ?, castka = ?, datum = ? WHERE id = ?');
     $stmt->bind_param('issdsi', $kategorieId, $typ, $popis, $castka, $datum, $id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        sendError('Nepodařilo se upravit transakci — zkontrolujte, zda kategorie existuje.', 400);
+    }
     sendJson(['message' => 'Transakce upravena.']);
 }
 
@@ -90,7 +94,9 @@ if ($method === 'DELETE') {
     }
     $stmt = $conn->prepare('DELETE FROM transakce WHERE id = ?');
     $stmt->bind_param('i', $id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        sendError('Nepodařilo se smazat transakci.', 500);
+    }
     sendJson(['message' => 'Transakce smazána.']);
 }
 

@@ -34,7 +34,9 @@ if ($method === 'POST' || $method === 'PUT') {
     if ($method === 'POST') {
         $stmt = $conn->prepare('INSERT INTO kategorie (nazev, ikona, barva, mesicni_limit, poradi) VALUES (?, ?, ?, ?, ?)');
         $stmt->bind_param('sssdi', $name, $icon, $color, $limit, $order);
-        $stmt->execute();
+        if (!$stmt->execute()) {
+            sendError('Nepodařilo se vytvořit kategorii.', 500);
+        }
         sendJson(['id' => $stmt->insert_id], 201);
     }
 
@@ -44,7 +46,9 @@ if ($method === 'POST' || $method === 'PUT') {
     }
     $stmt = $conn->prepare('UPDATE kategorie SET nazev = ?, ikona = ?, barva = ?, mesicni_limit = ?, poradi = ? WHERE id = ?');
     $stmt->bind_param('sssdii', $name, $icon, $color, $limit, $order, $id);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        sendError('Nepodařilo se upravit kategorii.', 500);
+    }
     sendJson(['message' => 'Kategorie upravena.']);
 }
 

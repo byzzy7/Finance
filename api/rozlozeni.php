@@ -27,7 +27,9 @@ if ($method === 'POST' || $method === 'PUT') {
          ON DUPLICATE KEY UPDATE rozlozeni_json = VALUES(rozlozeni_json)'
     );
     $stmt->bind_param('is', $memberId, $layoutJson);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        sendError('Nepodařilo se uložit rozložení.', 500);
+    }
     sendJson(['message' => 'Rozložení uloženo.']);
 }
 

@@ -29,7 +29,9 @@ if ($method === 'POST') {
     $filterJson = json_encode($filter);
     $stmt = $conn->prepare('INSERT INTO ulozene_filtry (clen_id, nazev, filtr_json) VALUES (?, ?, ?)');
     $stmt->bind_param('iss', $memberId, $name, $filterJson);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        sendError('Nepodařilo se uložit filtr.', 500);
+    }
     sendJson(['id' => $stmt->insert_id], 201);
 }
 
@@ -41,7 +43,9 @@ if ($method === 'DELETE') {
     }
     $stmt = $conn->prepare('DELETE FROM ulozene_filtry WHERE id = ? AND clen_id = ?');
     $stmt->bind_param('ii', $id, $memberId);
-    $stmt->execute();
+    if (!$stmt->execute()) {
+        sendError('Nepodařilo se smazat filtr.', 500);
+    }
     sendJson(['message' => 'Filtr smazán.']);
 }
 
