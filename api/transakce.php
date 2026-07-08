@@ -2,10 +2,13 @@
 
 require_once __DIR__ . '/lib/auth_guard.php';
 require_once __DIR__ . '/db_config.php';
+require_once __DIR__ . '/lib/trvale_platby_generator.php';
 
 $memberId = currentMemberId();
 $conn = getDbConnection();
 $method = $_SERVER['REQUEST_METHOD'];
+
+generateDueTransakce($conn);
 
 if ($method === 'GET') {
     $where = [];

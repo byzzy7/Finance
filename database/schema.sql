@@ -34,6 +34,21 @@ CREATE TABLE transakce (
     FOREIGN KEY (kategorie_id) REFERENCES kategorie(id) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE trvale_platby (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    clen_id INT NOT NULL,
+    kategorie_id INT NOT NULL,
+    typ ENUM('prijem', 'vydaj') NOT NULL,
+    popis VARCHAR(255) NOT NULL,
+    castka DECIMAL(10,2) NOT NULL,
+    perioda ENUM('tydne', 'mesicne', 'rocne') NOT NULL DEFAULT 'mesicne',
+    dalsi_datum DATE NOT NULL,
+    aktivni TINYINT(1) NOT NULL DEFAULT 1,
+    vytvoreno DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (clen_id) REFERENCES clenove_rodiny(id) ON DELETE CASCADE,
+    FOREIGN KEY (kategorie_id) REFERENCES kategorie(id) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE ulozene_filtry (
     id INT AUTO_INCREMENT PRIMARY KEY,
     clen_id INT NOT NULL,

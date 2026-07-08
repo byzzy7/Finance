@@ -2,27 +2,32 @@ import { useEffect, useMemo, useState } from 'react'
 import { kategorieApi } from '../api/kategorie'
 import { clenoveApi } from '../api/clenove'
 import { transakceApi } from '../api/transakce'
-import type { Clen, Kategorie, Transakce } from '../types'
+import { trvalePlatbyApi } from '../api/trvalePlatby'
+import type { Clen, Kategorie, Transakce, TrvalaPlatba } from '../types'
 import CategoryManager from '../components/CategoryManager'
 import MemberManager from '../components/MemberManager'
+import PravidelnePlatbyManager from '../components/PravidelnePlatbyManager'
 
 export default function SettingsPage() {
   const [kategorie, setKategorie] = useState<Kategorie[]>([])
   const [clenove, setClenove] = useState<Clen[]>([])
   const [transakceMesice, setTransakceMesice] = useState<Transakce[]>([])
+  const [platby, setPlatby] = useState<TrvalaPlatba[]>([])
   const [nacitani, setNacitani] = useState(true)
 
   const aktualniMesic = new Date().toISOString().slice(0, 7)
 
   async function nacistVse() {
-    const [k, c, t] = await Promise.all([
+    const [k, c, t, p] = await Promise.all([
       kategorieApi.list(),
       clenoveApi.list(),
       transakceApi.list({ mesic: aktualniMesic }),
+      trvalePlatbyApi.list(),
     ])
     setKategorie(k)
     setClenove(c)
     setTransakceMesice(t)
+    setPlatby(p)
   }
 
   useEffect(() => {
@@ -66,6 +71,24 @@ export default function SettingsPage() {
         clenove={clenove}
         onCreate={async (data) => {
           await clenoveApi.create(data)
+          await nacistVse()
+        }}
+      />
+
+      <PravidelnePlatbyManager
+        platby={platby}
+        kategorie={kategorie}
+        onCreate={async (data) => {
+          await trvalePlatbyApi.create(data)
+          await nacistVse()
+        }}
+        onUpdate={async (id, data) => {
+          await trvalePlatbyApi.update(id, data)
+          await nacistVse()
+        }}
+        onDelete={async (id) => {
+          if (!confirm('Opravdu smazat tuto trvalou platbu?')) return
+          await trvalePlatbyApi.remove(id)
           await nacistVse()
         }}
       />
