@@ -38,6 +38,16 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
+/* Modální okna potřebují čitelnější pozadí než průhledné .glass karty */
+.glass-modal {
+  background: rgba(15, 13, 26, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
 .glass-hover {
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }

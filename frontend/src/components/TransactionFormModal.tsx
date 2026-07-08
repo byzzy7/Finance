@@ -69,7 +69,7 @@ export default function TransactionFormModal({ otevreno, kategorie, upravovana, 
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className="glass glow-ring w-full max-w-md p-6"
+        className="glass-modal glow-ring w-full max-w-md p-6"
       >
         <h2 className="mb-4 text-lg font-semibold">{upravovana ? 'Upravit transakci' : 'Přidat transakci'}</h2>
 

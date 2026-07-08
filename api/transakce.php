@@ -40,6 +40,9 @@ if ($method === 'GET') {
     $sql .= ' ORDER BY t.datum DESC, t.id DESC';
 
     $stmt = $conn->prepare($sql);
+    if ($stmt === false) {
+        sendError('Databázová chyba (SELECT): ' . $conn->error, 500);
+    }
     if ($params) {
         $stmt->bind_param($types, ...$params);
     }
@@ -67,6 +70,9 @@ if ($method === 'POST' || $method === 'PUT') {
 
     if ($method === 'POST') {
         $stmt = $conn->prepare('INSERT INTO transakce (clen_id, kategorie_id, typ, popis, castka, datum) VALUES (?, ?, ?, ?, ?, ?)');
+        if ($stmt === false) {
+            sendError('Databázová chyba (INSERT): ' . $conn->error, 500);
+        }
         $stmt->bind_param('iissds', $memberId, $kategorieId, $typ, $popis, $castka, $datum);
         if (!$stmt->execute()) {
             sendError('Nepodařilo se uložit transakci — zkontrolujte, zda kategorie existuje.', 400);
@@ -79,6 +85,9 @@ if ($method === 'POST' || $method === 'PUT') {
         sendError('Chybí id transakce.', 400);
     }
     $stmt = $conn->prepare('UPDATE transakce SET kategorie_id = ?, typ = ?, popis = ?, castka = ?, datum = ? WHERE id = ?');
+    if ($stmt === false) {
+        sendError('Databázová chyba (UPDATE): ' . $conn->error, 500);
+    }
     $stmt->bind_param('issdsi', $kategorieId, $typ, $popis, $castka, $datum, $id);
     if (!$stmt->execute()) {
         sendError('Nepodařilo se upravit transakci — zkontrolujte, zda kategorie existuje.', 400);
@@ -93,6 +102,9 @@ if ($method === 'DELETE') {
         sendError('Chybí id transakce.', 400);
     }
     $stmt = $conn->prepare('DELETE FROM transakce WHERE id = ?');
+    if ($stmt === false) {
+        sendError('Databázová chyba (DELETE): ' . $conn->error, 500);
+    }
     $stmt->bind_param('i', $id);
     if (!$stmt->execute()) {
         sendError('Nepodařilo se smazat transakci.', 500);
