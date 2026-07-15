@@ -1,5 +1,5 @@
 # Backend lokální konfigurace (obsahuje DB heslo)
-api/config.local.php
+inc/config.local.php
 
 # Frontend
 frontend/node_modules

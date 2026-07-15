@@ -6,7 +6,7 @@ function getDbConnection(): mysqli
     if (!file_exists($configFile)) {
         http_response_code(500);
         header('Content-Type: application/json; charset=UTF-8');
-        echo json_encode(['error' => 'Chybí api/config.local.php — zkopíruj config.example.php a vyplň údaje k databázi.']);
+        echo json_encode(['error' => 'Chybí inc/config.local.php — zkopíruj config.example.php a vyplň údaje k databázi.']);
         exit();
     }
 

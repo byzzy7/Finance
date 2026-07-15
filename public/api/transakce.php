@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/lib/auth_guard.php';
-require_once __DIR__ . '/db_config.php';
-require_once __DIR__ . '/lib/trvale_platby_generator.php';
+require_once __DIR__ . '/../../inc/lib/auth_guard.php';
+require_once __DIR__ . '/../../inc/db_config.php';
+require_once __DIR__ . '/../../inc/lib/trvale_platby_generator.php';
 
 $memberId = currentMemberId();
 $conn = getDbConnection();

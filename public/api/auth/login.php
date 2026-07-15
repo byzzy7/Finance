@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../lib/session.php';
-require_once __DIR__ . '/../lib/response.php';
-require_once __DIR__ . '/../db_config.php';
+require_once __DIR__ . '/../../../inc/lib/session.php';
+require_once __DIR__ . '/../../../inc/lib/response.php';
+require_once __DIR__ . '/../../../inc/db_config.php';
 
 initSession();
 

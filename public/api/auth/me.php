@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../lib/auth_guard.php';
-require_once __DIR__ . '/../db_config.php';
+require_once __DIR__ . '/../../../inc/lib/auth_guard.php';
+require_once __DIR__ . '/../../../inc/db_config.php';
 
 $memberId = currentMemberId();
 
